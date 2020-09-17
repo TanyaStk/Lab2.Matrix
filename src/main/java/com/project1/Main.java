@@ -11,7 +11,7 @@ public class Main {
 
             System.out.println("Enter column size: ");
             int column = scanner.nextInt();
-            if (row == 0 | column == 0) {
+            if (row == 0 || column == 0) {
                 throw new Exception("Zero size");
             }
             int[][] matrix = createRandomMatrix(row, column);
@@ -52,12 +52,14 @@ public class Main {
         for (int i = 0; i < matrix.length; i++) {
             arrayOfSums[i] = countSumOfElementsInLine(matrix[i]);
         }
-        for (int i = 0; i < arrayOfSums.length - 1; i++) {
-            if (arrayOfSums[i] <= arrayOfSums[i + 1]) {
-                swapMatrixLines(matrix, i, i + 1);
-                int temp = arrayOfSums[i];
-                arrayOfSums[i] = arrayOfSums[i + 1];
-                arrayOfSums[i + 1] = temp;
+        for (int i = arrayOfSums.length - 1; i > 0; i--) {
+            for (int j = 0; j < i; j++) {
+                if (arrayOfSums[j] >= arrayOfSums[j + 1]) {
+                    swapMatrixLines(matrix, j, j + 1);
+                    int temp = arrayOfSums[j];
+                    arrayOfSums[j] = arrayOfSums[j + 1];
+                    arrayOfSums[j + 1] = temp;
+                }
             }
         }
     }
@@ -72,7 +74,7 @@ public class Main {
 
     static void swapMatrixLines(int[][] matrix,
                                 int realIndex, int expectedIndex) {
-        for (int i = 0; i < matrix.length; i++) {
+        for (int i = 0; i < matrix.length - 1; i++) {
             int temp = matrix[realIndex][i];
             matrix[realIndex][i] = matrix[expectedIndex][i];
             matrix[expectedIndex][i] = temp;
